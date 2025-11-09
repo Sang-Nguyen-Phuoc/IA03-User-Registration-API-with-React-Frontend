@@ -2,12 +2,8 @@ import mongoose from 'mongoose'
 
 const connectDB = async () => {
   try {
-    const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-
-    const conn = await mongoose.connect(process.env.MONGODB_URI, options)
+    // Remove deprecated options and connect directly
+    const conn = await mongoose.connect(process.env.MONGODB_URI)
 
     console.log('✅ MongoDB Connected Successfully')
     console.log(`📊 Host: ${conn.connection.host}`)

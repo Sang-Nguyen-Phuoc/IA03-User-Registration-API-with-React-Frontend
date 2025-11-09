@@ -17,8 +17,10 @@ connectDB()
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
-  'http://localhost:5173',
-  process.env.FRONTEND_URL
+  'http://localhost:5173',  
+  process.env.FRONTEND_URL,
+"https://ia-03-user-registration-api-with-re-zeta.vercel.app/", 
+  'https://*.onrender.com'
 ]
 
 app.use(cors({
@@ -26,7 +28,16 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true)
     
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    // Check if the origin matches any allowed origins or patterns
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.includes('*')) {
+        const pattern = new RegExp('^' + allowedOrigin.replace('*', '.*') + '$')
+        return pattern.test(origin)
+      }
+      return allowedOrigin === origin
+    })
+    
+    if (isAllowed) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
