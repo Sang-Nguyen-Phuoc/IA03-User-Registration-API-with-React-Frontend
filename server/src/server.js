@@ -67,6 +67,14 @@ app.get('/', (req, res) => {
     message: 'User Registration API',
     version: '1.0.0',
     environment: process.env.NODE_ENV,
+    server: {
+      timestamp: new Date().toISOString(),
+      cors: {
+        allowedOrigins,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+      }
+    },
     endpoints: {
       register: 'POST /api/user/register',
       login: 'POST /api/user/login',
@@ -93,7 +101,20 @@ app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',
-    path: req.path
+    request: {
+      path: req.path,
+      method: req.method,
+      originalUrl: req.originalUrl,
+      baseUrl: req.baseUrl
+    },
+    availableRoutes: {
+      auth: [
+        'POST /api/user/register',
+        'POST /api/user/login',
+        'GET /api/user'
+      ]
+    },
+    help: 'Make sure you are including /api in your request URL'
   })
 })
 
