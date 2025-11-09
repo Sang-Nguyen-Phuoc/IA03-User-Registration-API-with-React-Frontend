@@ -76,9 +76,9 @@ app.get('/', (req, res) => {
       }
     },
     endpoints: {
-      register: 'POST /api/user/register',
-      login: 'POST /api/user/login',
-      profile: 'GET /api/user/profile'
+      register: 'POST /user/register',
+      login: 'POST /user/login',
+      profile: 'GET /user/profile'
     }
   })
 })
@@ -94,7 +94,7 @@ app.get('/health', (req, res) => {
 })
 
 // API Routes
-app.use('/api/user', userRoutes)
+app.use('/user', userRoutes)
 
 // 404 Handler
 app.use((req, res) => {
@@ -109,12 +109,11 @@ app.use((req, res) => {
     },
     availableRoutes: {
       auth: [
-        'POST /api/user/register',
-        'POST /api/user/login',
-        'GET /api/user'
+        'POST user/register',
+        'POST user/login',
+        'GET user'
       ]
     },
-    help: 'Make sure you are including /api in your request URL'
   })
 })
 
