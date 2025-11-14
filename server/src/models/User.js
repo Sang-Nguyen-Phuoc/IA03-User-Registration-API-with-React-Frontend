@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       minlength: [8, 'Password must be at least 8 characters'],
       select: false
     },
+    refreshToken: {
+      type: String,
+      select: false
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -69,6 +73,7 @@ userSchema.methods.getPublicProfile = function () {
 userSchema.methods.toJSON = function () {
   const user = this.toObject()
   delete user.password
+  delete user.refreshToken
   return user
 }
 

@@ -21,25 +21,17 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
 "https://ia-03-user-registration-api-with-re-zeta.vercel.app/", 
   'https://*.onrender.com'
-]
+].filter(Boolean)
 
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true)
     
-    // Check if the origin matches any allowed origins or patterns
-    const isAllowed = allowedOrigins.some(allowedOrigin => {
-      if (allowedOrigin.includes('*')) {
-        const pattern = new RegExp('^' + allowedOrigin.replace('*', '.*') + '$')
-        return pattern.test(origin)
-      }
-      return allowedOrigin === origin
-    })
-    
-    if (isAllowed) {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true)
     } else {
+      console.log(`❌ CORS blocked origin: ${origin}`)
       callback(new Error('Not allowed by CORS'))
     }
   },
@@ -64,21 +56,19 @@ if (process.env.NODE_ENV === 'development') {
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'User Registration API',
+     message: 'User Registration API with Access & Refresh Tokens',
     version: '1.0.0',
     environment: process.env.NODE_ENV,
-    server: {
-      timestamp: new Date().toISOString(),
-      cors: {
-        allowedOrigins,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization']
-      }
-    },
     endpoints: {
       register: 'POST /user/register',
       login: 'POST /user/login',
-      profile: 'GET /user/profile'
+      refresh: 'POST /user/refresh',
+      logout: 'POST /user/logout',
+      profile: 'GET /user'
+    },
+    tokenInfo: {
+      accessTokenExpiry: '5 minutes',
+      refreshTokenExpiry: '7 days'
     }
   })
 })
