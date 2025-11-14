@@ -30,8 +30,8 @@ export default function Login() {
   const mutation = useMutation({
     mutationFn: authAPI.login,
     onSuccess: (response) => {
-      const { token, user } = response.data.data;
-      login(token, user);
+      const { accessToken, refreshToken, user } = response.data.data;
+      login(accessToken, refreshToken, user);
     },
     onError: (error) => {
       const message =

@@ -19,8 +19,6 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',  
   process.env.FRONTEND_URL,
-"https://ia-03-user-registration-api-with-re-zeta.vercel.app/", 
-  'https://*.onrender.com'
 ].filter(Boolean)
 
 app.use(cors({

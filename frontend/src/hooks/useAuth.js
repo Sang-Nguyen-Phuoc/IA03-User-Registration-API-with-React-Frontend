@@ -16,8 +16,9 @@ export const useAuth = () => {
     setLoading(false)
   }, [])
 
-  const login = (token, userData) => {
-    localStorage.setItem('token', token)
+  const login = (accessToken, refreshToken, userData) => {
+    localStorage.setItem('token', accessToken)
+    localStorage.setItem('refreshToken', refreshToken)
     localStorage.setItem('user', JSON.stringify(userData))
     setUser(userData)
     navigate('/')
@@ -25,6 +26,7 @@ export const useAuth = () => {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
     localStorage.removeItem('user')
     setUser(null)
     navigate('/login')
