@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
 import { authAPI } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import {
@@ -31,6 +32,15 @@ export default function Login() {
     mutationFn: authAPI.login,
     onSuccess: (response) => {
       const { accessToken, refreshToken, user } = response.data.data;
+      toast.success("Login successful!", {
+        duration: 3000,
+        icon: "✅",
+        style: {
+          background: "#22c55e",
+          color: "#fff",
+          fontWeight: 500,
+        },
+      });
       login(accessToken, refreshToken, user);
     },
     onError: (error) => {
@@ -48,6 +58,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 flex items-center justify-center p-4">
+      <Toaster position="top-center" />
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           {/* Header */}

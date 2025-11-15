@@ -45,14 +45,14 @@ JWT_SECRET=your_jwt_secret_at_least_32_chars
 FRONTEND_URL=http://localhost:5173
 ```
 
-Create a `.env` file in the `frontend/` folder with the API base URL (must include `/api`):
+Create a `.env` file in the `frontend/` folder with the API base URL (without `/api`):
 
 ```properties
 # frontend/.env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=http://localhost:5000
 ```
 
-Note: When deploying, set these env vars in Render (backend) and Vercel (frontend). For production the backend URL should be something like `https://your-backend.onrender.com/api`.
+Note: When deploying, set these env vars in Render (backend) and Vercel (frontend). For production the backend URL should be something like `https://your-backend.onrender.com`.
 
 ## Run locally
 
@@ -74,7 +74,7 @@ Open the frontend URL (usually http://localhost:5173) in your browser.
 
 ## Common troubleshooting
 
-- 404 / Route not found when logging in/registering: verify your frontend `VITE_API_URL` includes the `/api` suffix. Example: `https://<backend>.onrender.com/api`.
+- 404 / Route not found when logging in/registering: verify your frontend `VITE_API_URL` does NOT include `/api`. Example: `https://<backend>.onrender.com` (routes start with `/user/*`)
 - `ENOTFOUND _mongodb._tcp...` when connecting to Atlas: check your `MONGODB_URI` cluster host is correct, ensure the cluster is active, and add an IP access entry (or 0.0.0.0/0) in Atlas Network Access.
 - CORS errors: ensure `FRONTEND_URL` (or your deployed frontend domain) is listed in the backend's allowed origins.
 - JWT / auth errors: confirm `JWT_SECRET` is set and the same across deploys.

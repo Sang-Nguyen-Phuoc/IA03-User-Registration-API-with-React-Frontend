@@ -16,10 +16,13 @@ connectDB()
 
 // CORS Configuration
 const allowedOrigins = [
-  'http://localhost:3000',
   'http://localhost:5173',  
   process.env.FRONTEND_URL,
 ].filter(Boolean)
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('✅ Allowed CORS origins:', allowedOrigins)
+}
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -30,6 +33,7 @@ app.use(cors({
       callback(null, true)
     } else {
       console.log(`❌ CORS blocked origin: ${origin}`)
+      console.log(`   Allowed origins: ${allowedOrigins.join(', ')}`)
       callback(new Error('Not allowed by CORS'))
     }
   },

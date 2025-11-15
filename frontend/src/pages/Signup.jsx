@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
 import { authAPI } from "../services/api";
 import {
   AlertCircle,
@@ -29,9 +30,21 @@ export default function SignUp() {
   const mutation = useMutation({
     mutationFn: authAPI.register,
     onSuccess: (response) => {
-      navigate("/login", {
-        state: { message: "Registration successful! Please login." },
+      toast.success("Registration successful! Please login.", {
+        duration: 5000,
+        icon: "✅",
+        style: {
+          background: "#22c55e",
+          color: "#fff",
+          fontWeight: 500,
+        },
       });
+      
+      setTimeout(() => {
+        navigate("/login", {
+          state: { message: "Registration successful! Please login." },
+        });
+      }, 5000);
     },
     onError: (error) => {
       const message =
@@ -51,6 +64,7 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
+      <Toaster position="top-center" />
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           {/* Header */}
@@ -61,21 +75,6 @@ export default function SignUp() {
             <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
             <p className="text-gray-600 mt-2">Sign up to get started</p>
           </div>
-
-          {/* Success Message */}
-          {mutation.isSuccess && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-green-800 font-medium">
-                  Registration successful!
-                </p>
-                <p className="text-green-700 text-sm">
-                  Redirecting to login...
-                </p>
-              </div>
-            </div>
-          )}
 
           {/* Error Message */}
           {apiError && (
