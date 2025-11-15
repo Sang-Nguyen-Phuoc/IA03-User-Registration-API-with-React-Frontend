@@ -16,6 +16,7 @@ connectDB()
 
 // CORS Configuration
 const allowedOrigins = [
+  'http://localhost:3000',
   'http://localhost:5173',  
   process.env.FRONTEND_URL,
 ].filter(Boolean)
@@ -38,8 +39,9 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 86400,
 }))
 
 // Body Parser Middleware
