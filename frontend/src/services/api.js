@@ -10,8 +10,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 seconds
-  withCredentials: true, // Enable credentials for CORS
+  timeout: 10000,
+  withCredentials: true,
 })
 
 // Request interceptor - Add auth token
@@ -32,6 +32,8 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error('❌ API Error:', error.response?.data || error.message)
+    
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
       localStorage.removeItem('refreshToken')
@@ -45,7 +47,9 @@ api.interceptors.response.use(
 export const authAPI = {
   register: (data) => api.post('/user/register', data),
   login: (data) => api.post('/user/login', data),
-  getProfile: () => api.get('/user/profile'),
+  refresh: (refreshToken) => api.post('/user/refresh', { refreshToken }),
+  logout: () => api.post('/user/logout'),
+  getProfile: () => api.get('/user'), 
 }
 
 export default api

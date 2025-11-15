@@ -33,7 +33,7 @@ export default function Login() {
     onSuccess: (response) => {
       const { accessToken, refreshToken, user } = response.data.data;
       toast.success("Login successful!", {
-        duration: 3000,
+        duration: 2000,
         icon: "✅",
         style: {
           background: "#22c55e",

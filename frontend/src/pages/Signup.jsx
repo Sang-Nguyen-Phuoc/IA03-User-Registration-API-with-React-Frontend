@@ -31,7 +31,7 @@ export default function SignUp() {
     mutationFn: authAPI.register,
     onSuccess: (response) => {
       toast.success("Registration successful! Please login.", {
-        duration: 5000,
+        duration: 1000,
         icon: "✅",
         style: {
           background: "#22c55e",
@@ -39,7 +39,7 @@ export default function SignUp() {
           fontWeight: 500,
         },
       });
-      
+
       setTimeout(() => {
         navigate("/login", {
           state: { message: "Registration successful! Please login." },

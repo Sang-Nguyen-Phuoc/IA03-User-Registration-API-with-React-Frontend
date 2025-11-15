@@ -21,6 +21,6 @@ router.post('/refresh', refreshAccessToken)
 
 // Protected routes
 router.post('/logout', protect, logoutUser)
-router.get('/', protect, getUserProfile)
+router.get('/profile', protect, getUserProfile)
 
 export default router
